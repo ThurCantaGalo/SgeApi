@@ -10,13 +10,14 @@ package model.bean;
  * @author Senai
  */
 public class Disciplina {
-    private int id_disciplina, area;
+    private int id_disciplina;
+    private Area area;
     private String nome_disciplina;
 
     public Disciplina() {
     }
 
-    public Disciplina(int id_disciplina, int area, String nome_disciplina) {
+    public Disciplina(int id_disciplina, Area area, String nome_disciplina) {
         this.id_disciplina = id_disciplina;
         this.area = area;
         this.nome_disciplina = nome_disciplina;
@@ -30,11 +31,11 @@ public class Disciplina {
         this.id_disciplina = id_disciplina;
     }
 
-    public int getArea() {
+    public Area getArea() {
         return area;
     }
 
-    public void setArea(int area) {
+    public void setArea(Area area) {
         this.area = area;
     }
 
@@ -45,6 +46,8 @@ public class Disciplina {
     public void setNome_disciplina(String nome_disciplina) {
         this.nome_disciplina = nome_disciplina;
     }
+
+    
     
     
 }
