@@ -23,9 +23,9 @@ import model.dao.DisciplinaDAO;
  *
  * @author Senai
  */
-@WebServlet(name = "HomeController", urlPatterns = {"/HomeController","/ola"})
-public class HomeController extends HttpServlet {
-   Gson conversor = new Gson();
+@WebServlet(name = "DisciplinaController", urlPatterns = {"/DisciplinaController","/disciplinas","/disciplina"})
+public class DisciplinaController extends HttpServlet {
+Gson conversor = new Gson();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,10 +43,10 @@ public class HomeController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeController</title>");            
+            out.println("<title>Servlet DisciplinaController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomeController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DisciplinaController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,16 +66,26 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         String url = request.getServletPath();
         
-        if(url.equals("/ola")){
-         response.setContentType("application/JSON");
-         response.setCharacterEncoding("UTF-8");
-         Map<String, String> res = new HashMap<String, String>(); 
-         res.put("mensagem", "Olá Mundo!");
-         PrintWriter out = response.getWriter();
-         out.write(conversor.toJson(res));
-         out.flush();
-         } 
         
+        if(url.equals("/disciplinas")){
+        response.setContentType("application/JSON");
+        response.setCharacterEncoding("UTF-8");
+        Map<String, List<Disciplina>> res = new HashMap<String, List<Disciplina>>();
+        res.put("disciplinas", new DisciplinaDAO().lerDisciplinas());
+        PrintWriter out = response.getWriter();
+        out.write(conversor.toJson(res));
+        out.flush();
+        }
+        else if(url.endsWith("/disciplina")){
+        response.setContentType("application/JSON");
+        response.setCharacterEncoding("UTF-8");
+        
+        int id = Integer.parseInt(request.getParameter("id_disciplina"));
+        
+        PrintWriter out = response.getWriter();
+        out.write(conversor.toJson(new DisciplinaDAO().disciplinaEspecifica(id)));
+        out.flush();
+        }
     }
 
     /**
