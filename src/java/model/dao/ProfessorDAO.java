@@ -37,24 +37,10 @@ public class ProfessorDAO {
     prof.setId_professor(rs.getInt("id_professor"));
     prof.setNome(rs.getString("nome"));
     prof.setSobrenome(rs.getString("sobrenome"));
-    prof.setSenha(rs.getString("senha"));
     prof.setCpf(rs.getString("cpf"));
     prof.setImagem(rs.getString("imagem"));
-    
-    Disciplina dis = new Disciplina();
-    dis.setId_disciplina(rs.getInt("id_disciplina"));
-    dis.setNome_disciplina(rs.getString("nome_disciplina"));
-   
-    
-    Area area = new Area();
-    area.setArea_id(rs.getInt("id_area"));
-    area.setNome_area(rs.getString("nome_area"));
-    area.setDescricao(rs.getString("descricao_area"));
-    dis.setArea(area);
-    
-    
-    
-    
+    prof.setDisciplina(new DisciplinaDAO().lerDisciplinasProfessores(rs.getInt("id_professor")));
+   professores.add(prof);
     }
     }catch(SQLException e){
     e.printStackTrace();

@@ -75,8 +75,8 @@ public class DisciplinaDAO {
                 // Início do objeto Area
                 Area area = new Area(); // Cria uma nova instância de Area
                 area.setArea_id(rs.getInt("id_area")); // Define o ID da área
-                area.setNome_area(rs.getString("nome_area")); // Define o nome da área
-                area.setDescricao(rs.getString("descricao_area")); // Define a descrição da área
+                area.setNome_area(rs.getString("nome")); // Define o nome da área
+                area.setDescricao(rs.getString("descricao")); // Define a descrição da área
 
                 // Associa a área ao objeto disciplina
                 dis.setArea(area);
@@ -92,5 +92,35 @@ public class DisciplinaDAO {
         }
         return dis;
        
+    }
+    
+     public List <Disciplina> lerDisciplinasProfessores(int id_professor){
+      List<Disciplina> lista = new ArrayList();
+      try{
+        Connection conexao = Conexao.conectar(); 
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        stmt = conexao.prepareStatement("SELECT d.id_disciplina, d.nome_disciplina, a.id_area, a.nome, a.descricao FROM disciplina AS d INNER JOIN professor_disciplina AS pd ON pd.fk_id_disciplina = d.id_disciplina INNER JOIN area AS a ON a.id_area = d.fk_id_area WHERE pd.fk_id_professor = ?;");
+        stmt.setInt(1, id_professor);
+        
+        rs = stmt.executeQuery();
+        
+        while(rs.next()){
+             Disciplina dis = new Disciplina();
+             dis.setId_disciplina(rs.getInt("id_disciplina"));
+             dis.setNome_disciplina(rs.getString("nome_disciplina"));
+             
+             Area area = new Area();
+             area.setArea_id(rs.getInt("id_area"));
+             area.setNome_area(rs.getString("nome"));
+             area.setDescricao(rs.getString("descricao"));
+             dis.setArea(area);
+             lista.add(dis);
+        }
+      }catch(SQLException e){
+      e.printStackTrace();
+      }
+    return(lista);
     }
 }
